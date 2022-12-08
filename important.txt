@@ -1,4 +1,6 @@
 TYPE THE FOLLOWING IN DIFFERENT CELLS
+
+OF GOOGLE COLAB 
 ..............................
 CODE BETWEEN DOTS MEAN CELLS 
 ...................................
