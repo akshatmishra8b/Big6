@@ -1,43 +1,41 @@
-import numpy as np
 import nltk
-# nltk.download('punkt')
-from nltk.stem.porter import PorterStemmer
+from nltk.stem import PorterStemmer
+from typing import List
+
 stemmer = PorterStemmer()
 
-def tokenize(sentence):
+def tokenize(sentence: str) -> List[str]:
     """
-    split sentence into array of words/tokens
-    a token can be a word or punctuation character, or number
+    Tokenize a sentence into a list of words/tokens.
+    A token can be a word or punctuation character, or number.
     """
     return nltk.word_tokenize(sentence)
 
-
-def stem(word):
+def stem(word: str) -> str:
     """
-    stemming = find the root form of the word
-    examples:
-    words = ["organize", "organizes", "organizing"]
-    words = [stem(w) for w in words]
-    -> ["organ", "organ", "organ"]
+    Find the root form of a word using stemmer.
+    Examples:
+        stem("organize") -> "organ"
+        stem("organizes") -> "organ"
+        stem("organizing") -> "organ"
     """
     return stemmer.stem(word.lower())
 
-
-def bag_of_words(tokenized_sentence, words):
+def bag_of_words(tokenized_sentence: List[str], words: List[str]) -> List[int]:
     """
-    return bag of words array:
-    1 for each known word that exists in the sentence, 0 otherwise
-    example:
-    sentence = ["hello", "how", "are", "you"]
-    words = ["hi", "hello", "I", "you", "bye", "thank", "cool"]
-    bog   = [  0 ,    1 ,    0 ,   1 ,    0 ,    0 ,      0]
+    Create a bag of words representation for a sentence.
+    Return a list of 1s and 0s indicating the presence or absence of each word in the sentence.
+    Example:
+        tokenized_sentence = ["hello", "how", "are", "you"]
+        words = ["hi", "hello", "I", "you", "bye", "thank", "cool"]
+        bag_of_words(tokenized_sentence, words) -> [0, 1, 0, 1, 0, 0, 0]
     """
-    # stem each word
+    # stem each word in the sentence
     sentence_words = [stem(word) for word in tokenized_sentence]
     # initialize bag with 0 for each word
-    bag = np.zeros(len(words), dtype=np.float32)
-    for idx, w in enumerate(words):
-        if w in sentence_words: 
-            bag[idx] = 1
-
+    bag = [0] * len(words)
+    # set the value to 1 for each word that exists in the sentence
+    for i, w in enumerate(words):
+        if w in sentence_words:
+            bag[i] = 1
     return bag
