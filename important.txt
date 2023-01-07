@@ -177,7 +177,11 @@ while True:
     # Get the user's input
     sentence = input("You: ")
     if sentence == "quit":
-        break
+       break
+    elif sentence =="bye":
+      print("Byee, See You Sooon")
+      break
+
 
     # Tokenize the input and create a bag of words representation
     sentence = tokenize(sentence)
@@ -200,8 +204,17 @@ while True:
     # If a response was found, randomly choose one and print it
     if len(responses) > 0:
         print(f"{bot_name}: {random.choice(responses)}")
-    # If no response was found, print an error message
+    # If no response was found, ask the user to provide a response and add it to the intents data
     else:
-        print(f"{bot_name}: I do not understand...")
-
+        new_response = input(f"{bot_name}: I do not understand. Can you provide a response for this input? ")
+        intents['intents'].append({
+            "tag": tag,
+            "patterns": [sentence],
+            "responses": [new_response]
+        })
+        # Save the updated intents data to the JSON file
+        with open('intents.json', 'w') as f:
+            json.dump(intents, f)
+           
 .........................................................................................................................................
+END                                                                 OF                                                         FILE
